@@ -1,5 +1,7 @@
 # Distancia a la Moneda Ideal y Posicionamiento Global
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/marcovanfan101/moneda-ideal-posicionamiento/blob/main/notebooks/run_and_visualize.ipynb)
+
 Codigo de replicacion para la tesis:
 
 **"Distancia a la Moneda Ideal y posicionamiento global: un umbral empirico en la calidad monetaria de las divisas (2010-2025)"**
@@ -7,18 +9,40 @@ Codigo de replicacion para la tesis:
 Marco Antonio Lopez Lazaro
 Universidad de San Martin de Porres, 2026
 
-## Resumen
+## Como ejecutar
 
-Este repositorio contiene el codigo completo para:
+### Opcion 1: Un click en Colab (recomendado)
 
-1. Descargar datos de tipos de cambio, precio del oro y agregados monetarios M2.
-2. Calcular los indices de Eficiencia Operativa (Eo), Entropia Valorativa (Sv) y Entropia de M2 (SM2).
-3. Construir la metrica de distancia a la Moneda Ideal: D = (100 - Eo) * Sv * SM2.
-4. Contrastar la hipotesis principal: las divisas mas cercanas al ideal tienen mayor posicionamiento global.
+Click en el boton **Open in Colab** arriba. El notebook ejecuta todo automaticamente.
+
+### Opcion 2: Manualmente en Colab
+
+    !git clone https://github.com/marcovanfan101/moneda-ideal-posicionamiento.git
+    %cd moneda-ideal-posicionamiento
+    !pip install -q yfinance pandas numpy pandas-datareader requests scipy openpyxl matplotlib seaborn
+    !python scripts/01_run_all.py
+
+### Opcion 3: Localmente
+
+    git clone https://github.com/marcovanfan101/moneda-ideal-posicionamiento.git
+    cd moneda-ideal-posicionamiento
+    python -m venv venv
+    source venv/bin/activate  # En Windows: venv\Scripts\activate
+    pip install -r requirements.txt
+    python scripts/01_run_all.py
 
 ## Hallazgo principal
 
-Existe un umbral en D aproximadamente 0.10. Las 7 divisas con D < 0.10 concentran el 90.6 por ciento de las reservas internacionales, mientras que las 16 divisas con D >= 0.10 concentran solo el 6.8 por ciento.
+**Existe un umbral en D = 0.10.** Las 7 divisas con D < 0.10 concentran el **90.6%** de las reservas internacionales, mientras que las 16 divisas con D >= 0.10 concentran solo el **6.8%**.
+
+## Resultados principales
+
+| Prueba | Valor | p-valor |
+|--------|-------|---------|
+| Spearman D vs Reservas | -0.71 | 0.0002 |
+| Spearman D vs BIS | -0.74 | 0.0001 |
+| Regresion log(Reservas) vs D | R2 = 0.41 | 0.0055 |
+| Umbral D=0.10 (Mann-Whitney) | 90.6% reservas | 0.0006 |
 
 ## Estructura del proyecto
 
@@ -26,27 +50,10 @@ Existe un umbral en D aproximadamente 0.10. Las 7 divisas con D < 0.10 concentra
     |-- config/                # configuracion y diccionarios
     |-- src/                   # modulos de codigo
     |-- scripts/               # scripts de ejecucion
+    |-- notebooks/             # notebooks para ejecutar en Colab
     |-- data/                  # datos crudos y procesados
     |-- results/               # figuras y tablas
-    |-- notebooks/             # analisis exploratorio
     |-- docs/                  # documentacion
-
-## Requisitos
-
-- Python 3.9 o superior
-- Ver requirements.txt
-
-## Instalacion
-
-    git clone https://github.com/marcovanfan101/moneda-ideal-posicionamiento.git
-    cd moneda-ideal-posicionamiento
-    python -m venv venv
-    source venv/bin/activate   # En Windows: venv\Scripts\activate
-    pip install -r requirements.txt
-
-## Uso
-
-    python scripts/01_run_all.py
 
 ## Metodologia
 
@@ -76,17 +83,8 @@ Existe un umbral en D aproximadamente 0.10. Las 7 divisas con D < 0.10 concentra
 | Precio del oro | Yahoo Finance (GC=F) |
 | M2 (20 paises) | FRED |
 | M2 (SGP, ARG, IND) | Banco Mundial |
-| Reservas | IMF COFER |
+| Reservas | IMF COFER Q4 2024 |
 | Turnover | BIS Triennial Survey 2022 |
-
-## Resultados principales
-
-| Prueba | Valor | p-valor |
-|--------|-------|---------|
-| Spearman D vs Reservas | -0.71 | 0.0002 |
-| Spearman D vs BIS | -0.74 | 0.0001 |
-| Regresion log(Reservas) vs D | R2 = 0.41 | 0.0055 |
-| Umbral D=0.10 (Mann-Whitney) | 90.6% reservas | 0.0006 |
 
 ## Como citar
 
